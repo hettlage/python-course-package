@@ -1,5 +1,8 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
+
+exclude: ^{{repo_name}}
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
@@ -52,16 +55,16 @@ repos:
       - id: ruff
         args: [--exit-non-zero-on-fix, --config=./pyproject.toml]
 
-#  - repo: https://github.com/pre-commit/mirrors-mypy
-#    rev: "v1.2.0"
-#    hooks:
-#      - id: mypy
-#        args:
-#          [
-#            --no-strict-optional,
-#            --ignore-missing-imports,
-#            --config-file=./pyproject.toml,
-#          ]
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: "v1.2.0"
+    hooks:
+      - id: mypy
+        args:
+          [
+            --no-strict-optional,
+            --ignore-missing-imports,
+            --config-file=./pyproject.toml,
+          ]
 
   - repo: https://github.com/psf/black
     rev: 23.1.0
@@ -69,6 +72,13 @@ repos:
       - id: black
         args:
           - --config=./pyproject.toml
+
+  - repo: https://github.com/PyCQA/pylint
+    rev: v2.16.3
+    hooks:
+      - id: pylint
+        args:
+          - --rcfile=./pyproject.toml
 
   - repo: https://github.com/PyCQA/flake8
     rev: 6.0.0
