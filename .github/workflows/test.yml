@@ -1,9 +1,23 @@
 name: Linting and Testing
 on:
+  pull_request:
+    types: [opened, synchronize]
   push:
     branches:
       - main
+  workflow_dispatch:
+
 jobs:
+  check-version-txt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Tag with the release version
+        run: |
+          git tag $(cat version.txt)
+
   lint:
     runs-on: ubuntu-latest
     steps:
