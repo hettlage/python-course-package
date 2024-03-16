@@ -1,0 +1,16 @@
+repo_name:
+  type: str
+  help: "Repository name"
+
+_exclude:
+  - "copier.yaml"
+  - "copier.yml"
+  - "~*"
+  - "*.py[co]"
+  - "__pycache__"
+  - ".git"
+  - ".DS_Store"
+  - ".svn"
+  - ".venv"
+  - ".idea"
+  - ".vscode"

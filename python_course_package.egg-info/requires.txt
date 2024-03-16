@@ -1,0 +1,13 @@
+numpy
+
+[:python_version < "3.8"]
+importlib-metadata
+
+[dev]
+python-course-package[static-code-qa,test]
+
+[static-code-qa]
+pre-commit
+
+[test]
+pytest
