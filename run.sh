@@ -21,6 +21,7 @@ function run_tests {
 
 function generate-project {
     copier copy $THIS_DIR "$1" --data-file "$2"
+    echo "$@"
     cd "$@"
     rm -r run.sh Makefile tests
     cd "$3"
