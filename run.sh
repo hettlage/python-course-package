@@ -16,7 +16,7 @@ function lint {
 }
 
 function run_tests {
-    pytest
+    python -m pytest -n auto tests/
 }
 
 function generate-project {
