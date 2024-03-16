@@ -2,6 +2,10 @@ repo_name:
   type: str
   help: "Repository name"
 
+package_import_name:
+  type: str
+  help: "Package import name"
+
 _exclude:
   - "copier.yaml"
   - "copier.yml"

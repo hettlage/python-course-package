@@ -10,7 +10,7 @@ from tests.utils.project import generate_project
 @pytest.fixture(scope="session")
 def project_dir() -> Generator[Path, None, None]:
     with tempfile.TemporaryDirectory() as tmp_dir:
-        template_values = {"repo_name": "test_repo"}
+        template_values = {"repo_name": "test_repo", "package_import_name": "shiny"}
         generated_repo_dir = generate_project(Path(tmp_dir), template_values)
 
         yield generated_repo_dir
