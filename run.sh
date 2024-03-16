@@ -21,7 +21,7 @@ function run_tests {
 
 function generate-project {
     copier copy $THIS_DIR "$1" --data-file "$2"
-Fix cd commabd    cd "$3/.."
+    cd "$3/.."
     rm -r run.sh Makefile tests
     cd "$3"
     git init
