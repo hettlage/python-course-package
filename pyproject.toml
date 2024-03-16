@@ -16,7 +16,7 @@ dependencies = ["numpy", 'importlib-metadata; python_version<"3.8"']
 dynamic = ["version"]
 
 [project.optional-dependencies]
-test = ["pytest"]
+test = ["pytest,pytest-xdist"]
 static-code-qa = ["pre-commit"]
 dev = ["python-course-package[test,static-code-qa]"]
 
