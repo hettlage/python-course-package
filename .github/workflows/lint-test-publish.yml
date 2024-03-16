@@ -65,3 +65,15 @@ jobs:
       - name: Run tests
         run: |
           make test
+
+  publish:
+    needs:
+      - check-version-txt
+      - lint
+      - test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Push tags
+        run: |
+          git push origin --tags
