@@ -15,6 +15,10 @@ function lint {
     pre-commit run --all-files
 }
 
+function run_tests {
+    pytest
+}
+
 function generate-project {
     copier copy $THIS_DIR "$1" --data-file "$2"
     cd "$@"

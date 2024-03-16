@@ -16,3 +16,6 @@ install:
 
 lint:
 	bash run.sh lint
+
+test:
+	bash run.sh run_tests
