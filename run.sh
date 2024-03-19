@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -77,21 +77,48 @@ function create-repo-if-not-exists {
   echo "Creating $GITHUB_USERNAME/$REPO_NAME as a $PUBLIC_OR_PRIVATE repo..."
   gh repo create "$GITHUB_USERNAME/$REPO_NAME" "--$PUBLIC_OR_PRIVATE"
 
+  push-initial-readme-to-repo
+}
+
+function push-initial-readme-to-repo {
+  rm -rf "$REPO_NAME" || true
+  gh repo clone "$GITHUB_USERNAME/$REPO_NAME"
   echo "# $REPO_NAME" > "$REPO_NAME/README.md"
   cd "$REPO_NAME"
   git branch -M main || true
   git add --all
   git commit -m "Feat: created repository"
   git push origin main
+
 }
 
 function configure-repo {
-  return 0
+  gh secret set TEST_PYPI_TOKEN \
+      --body "$TEST_PYPI_TOKEN" \
+      --repo "$GITHUB_USERNAME/$REPO_NAME"
+
+  gh secret set PROD_PYPI_TOKEN \
+      --body "$PROD_PYPI_TOKEN" \
+      --repo "$GITHUB_USERNAME/$REPO_NAME"
+
+  BRANCH_NAME=main
+  gh api -X PUT "/repos/$GITHUB_USERNAME/$REPO_NAME/branches/$BRANCH_NAME/protection" \
+    -H "Accept: application/vnd.github+json" \
+    -F "required_status_checks[strict]=true" \
+    -F "required_status_checks[checks][][context]=check-version-txt" \
+    -F "required_status_checks[checks][][context]=lint-format-and-static-code-checks" \
+    -F "required_status_checks[checks][][context]=build-wheel-and-sdist" \
+    -F "required_status_checks[checks][][context]=execute-tests" \
+    -F "required_pull_request_reviews[required_approving_review_count]=1" \
+    -F "enforce_admins=null" \
+    -F "restrictions=null" > /dev/null
+
 }
 
 function open-pr-with-generate-template {
   cd "$THIS_DIR"
   rm -rf "./$REPO_NAME" || true
+  rm -rf "outdir/$REPO_NAME" || true
   gh repo clone "$GITHUB_USERNAME/$REPO_NAME" "./$REPO_NAME"
 
   mv "$REPO_NAME/.git" "./$REPO_NAME.git.bak"
@@ -109,14 +136,25 @@ EOF
 
   mv "$REPO_NAME/.git" "$OUTDIR/$REPO_NAME"
   cd "$OUTDIR/$REPO_NAME"
-  git checkout -b "feat/populating-from-template"
+
+  UUID=$(uuidgen)
+  UNIQUE_BRANCH_NAME=populate-from-template-${UUID:0:6}
+
+  git checkout -b "$UNIQUE_BRANCH_NAME"
   git add --all
 
   lint || true
 
   git add --all
   git commit -m "feat: populate from template"
-  git push origin "feat/populating-from-template"
+  git push origin "$UNIQUE_BRANCH_NAME"
+
+  gh pr create \
+      --title "feat: populate from template" \
+      --body "This PR was created automatically." \
+      --base main \
+      --head "$UNIQUE_BRANCH_NAME" \
+      --repo "$GITHUB_USERNAME/$REPO_NAME"
 }
 
 # print all functions in this file
