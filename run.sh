@@ -88,8 +88,7 @@ function push-initial-readme-to-repo {
   git branch -M main || true
   git add --all
   git commit -m "Feat: created repository"
-  git push origin main
-
+  git push
 }
 
 function configure-repo {
