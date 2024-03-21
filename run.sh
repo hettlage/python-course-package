@@ -160,7 +160,7 @@ EOF
 function create-sample-repo {
   git add .github/*
   git commit -m "Debug the create-or-update-repo workflow"
-  git push origin main
+  git push
 
   gh workflow run .github/workflows/create-or-update-repo.yml \
       -f repo_name=some-generated_repo \
