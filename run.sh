@@ -164,8 +164,6 @@ function create-sample-repo {
   git commit -m "Debug the create-or-update-repo workflow" || true
   git push
 
-  gh repo delete --yes hettlage/some-generated_repo
-
   gh workflow run .github/workflows/create-or-update-repo.yml \
       -f repo_name=some-generated_repo \
       -f import_package_name=shiny_repo \
