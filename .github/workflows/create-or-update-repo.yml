@@ -27,6 +27,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Configure git user
+        run: |
+          git config --global user.email "hettlage@example.com"
+          git config --global user.name "Christian Hettlage"
       - run: |
           bash -x run.sh create-repo-if-not-exists
         env:
@@ -41,6 +45,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Configure git user
+        run: |
+          git config --global user.email "hettlage@example.com"
+          git config --global user.name "Christian Hettlage"
       - run: |
           bash run.sh configure-repo
         env:
@@ -56,6 +64,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Configure git user
+        run: |
+          git config --global user.email "hettlage@example.com"
+          git config --global user.name "Christian Hettlage"
       - run: |
           bash run.sh open-pr-with-generate-template
         env:

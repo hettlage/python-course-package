@@ -83,8 +83,6 @@ function create-repo-if-not-exists {
 function push-initial-readme-to-repo {
   rm -rf "$REPO_NAME" || true
   gh repo clone "$GITHUB_USERNAME/$REPO_NAME"
-  git config --global user.email "hettlage@example.com"
-  git config --global user.name "Christian Hettlage"
   echo "# $REPO_NAME" > "$REPO_NAME/README.md"
   cd "$REPO_NAME"
   git branch -M main || true
