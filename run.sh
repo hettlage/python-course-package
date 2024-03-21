@@ -83,6 +83,8 @@ function create-repo-if-not-exists {
 function push-initial-readme-to-repo {
   rm -rf "$REPO_NAME" || true
   gh repo clone "$GITHUB_USERNAME/$REPO_NAME"
+  git config --global user.email "hettlage@example.com"
+  git config --global user.name "Christian Hettlage"
   echo "# $REPO_NAME" > "$REPO_NAME/README.md"
   cd "$REPO_NAME"
   git branch -M main || true
@@ -159,12 +161,12 @@ EOF
 
 function create-sample-repo {
   git add .github/*
-  git commit -m "Debug the create-or-update-repo workflow"
+  git commit -m "Debug the create-or-update-repo workflow" || true
   git push
 
   gh workflow run .github/workflows/create-or-update-repo.yml \
       -f repo_name=some-generated_repo \
-      -f package_import_name=shiny_repo \
+      -f import_package_name=shiny_repo \
       -f is_public_repo=true \
       --ref main
 }
