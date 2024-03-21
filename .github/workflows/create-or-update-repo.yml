@@ -78,6 +78,6 @@ jobs:
           bash run.sh open-pr-with-generate-template
         env:
           REPO_NAME: ${{ github.event.inputs.repo_name }}
-          PACKAGE_IMPORT_NAME: ${{ github.event.inputs.package_import_name }}
+          PACKAGE_IMPORT_NAME: ${{ github.event.inputs.import_package_name }}
           GITHUB_USERNAME: hettlage
           IS_PUBLIC_REPO: ${{ github.event.inputs.is_public_repo }}
