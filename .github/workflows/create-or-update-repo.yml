@@ -27,7 +27,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: actions/python
       - name: Configure git user
         run: |
           git config --global user.email "hettlage@example.com"
