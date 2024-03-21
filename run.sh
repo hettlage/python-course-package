@@ -157,6 +157,18 @@ EOF
       --repo "$GITHUB_USERNAME/$REPO_NAME"
 }
 
+function create-sample-repo {
+  git add .github/*
+  git commit -m "Debug the create-or-update-repo workflow"
+  git push origin main
+
+  gh workflow run .github/workflows/create-or-update-repo.yml \
+      -f repo_name=some-generated_repo \
+      -f package_import_name=shiny_repo \
+      -f is_public_repo=true \
+      --ref main
+}
+
 # print all functions in this file
 function help {
     echo "$0 <task> <args>"
