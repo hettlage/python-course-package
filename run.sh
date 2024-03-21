@@ -169,7 +169,7 @@ function create-sample-repo {
 
   gh workflow run .github/workflows/create-or-update-repo.yml \
       -f repo_name=some-generated_repo \
-      -f import_package_name=shiny_repo \
+      -f package_import_name=shiny_repo \
       -f is_public_repo=true \
       --ref main
 }
